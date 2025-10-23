@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Document Tracker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Welcome, {{ user.name }} ({{ user.role|capitalize }})</h2>
+    <a href="/logout" class="btn btn-secondary btn-sm float-end">Logout</a>
+    <div class="mb-3">
+        <a href="/register" class="btn btn-primary btn-sm">Register New File</a>
+        <form method="get" action="/search" class="d-inline ms-3">
+            <input type="text" name="q" placeholder="Search files..." required>
+            <button type="submit" class="btn btn-outline-secondary btn-sm">Search</button>
+        </form>
+    </div>
+    <h4 class="mt-4">Cupboards & Drawers</h4>
+    {% for cupboard in storage %}
+        <div class="card mb-4 shadow">
+            <div class="card-header bg-primary text-white">
+                <strong>{{ cupboard.name }}</strong> ({{ cupboard.department }}) - Location: {{ cupboard.location }}
+                {% if cupboard.secured %}<span class="badge bg-danger ms-2">Secured</span>{% endif %}
+            </div>
+            <div class="card-body bg-light">
+                {% for drawer in cupboard.drawers %}
+                    {% set drawer_idx = loop.index0 %}
+                    <div class="mb-3">
+                        <h6 class="text-secondary">{{ drawer.name }}</h6>
+                        <div class="row">
+                        {% for file in drawer.files %}
+                            {% set file_idx = loop.index0 %}
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <div class="border rounded p-2 bg-white">
+                                    <strong>{{ file.title }}</strong> <span class="badge bg-info">{{ file.category }}</span><br>
+                                    <small>Created: {{ file.created }}</small>
+                                    {% if file.status %}
+                                        <span class="badge bg-warning text-dark ms-2">{{ file.status.replace('_', ' ').capitalize() }}</span>
+                                    {% endif %}
+                                    <div class="mt-2">
+                                        {% if file.status != 'checked_out' %}
+                                        <form method="post" action="/checkout/{{ cupboard.id }}/{{ drawer_idx }}/{{ file_idx }}" class="d-inline">
+                                            <input type="date" name="date" required class="form-control form-control-sm d-inline w-auto" placeholder="Check-out date">
+                                            <input type="date" name="expected_return" required class="form-control form-control-sm d-inline w-auto" placeholder="Expected return">
+                                            <button type="submit" class="btn btn-sm btn-warning">Check Out</button>
+                                        </form>
+                                        {% else %}
+                                        <form method="post" action="/return/{{ cupboard.id }}/{{ drawer_idx }}/{{ file_idx }}" class="d-inline">
+                                            <input type="date" name="date" required class="form-control form-control-sm d-inline w-auto" placeholder="Return date">
+                                            <button type="submit" class="btn btn-sm btn-success">Return</button>
+                                        </form>
+                                        {% endif %}
+                                        <form method="post" action="/handover/{{ cupboard.id }}/{{ drawer_idx }}/{{ file_idx }}" class="d-inline">
+                                            <input type="text" name="to_user" required class="form-control form-control-sm d-inline w-auto" placeholder="To (email or dept)">
+                                            <input type="text" name="handover_note" class="form-control form-control-sm d-inline w-auto" placeholder="Note">
+                                            <input type="date" name="date" required class="form-control form-control-sm d-inline w-auto" placeholder="Handover date">
+                                            <button type="submit" class="btn btn-sm btn-secondary">Handover</button>
+                                        </form>
+                                    </div>
+                                    <details class="mt-2">
+                                        <summary>History</summary>
+                                        <ul class="small">
+                                        {% for h in file.history %}
+                                            <li>{{ h.action|capitalize }} by {{ h.by }}{% if h.to %} to {{ h.to }}{% endif %} on {{ h.date }}{% if h.expected_return %} (Expected return: {{ h.expected_return }}){% endif %}{% if h.note %} - {{ h.note }}{% endif %}</li>
+                                        {% endfor %}
+                                        </ul>
+                                    </details>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+</body>
+</html>

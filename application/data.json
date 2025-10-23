@@ -1,0 +1,65 @@
+{
+  "users": [
+    {"email": "sandaleefernando1@gmail.com", "name": "Sandalee Fernando", "role": "admin", "password": "adminpass"},
+    {"email": "hr1@company.com", "name": "HR User 1", "role": "hr", "password": "hrpass1"},
+    {"email": "secretary@company.com", "name": "Secretary", "role": "secretary", "password": "secretpass"}
+  ],
+  "storage": [
+    {
+      "id": 1,
+      "name": "HR Cupboard",
+      "department": "HR",
+      "location": "Accounts Department",
+      "drawers": [
+        {"name": "New Employees", "files": [
+          {"title": "John Doe", "category": "Contract", "created": "2024-01-10", "history": [{"action": "created", "by": "hr1@company.com", "date": "2024-01-10"}]},
+          {"title": "Jane Smith", "category": "Contract", "created": "2024-02-15", "history": [{"action": "created", "by": "hr1@company.com", "date": "2024-02-15"}]}
+        ]},
+        {"name": "Resigned Employees", "files": [
+          {"title": "Alice Brown", "category": "Resignation", "created": "2023-11-20", "history": [{"action": "created", "by": "hr1@company.com", "date": "2023-11-20"}]}
+        ]},
+        {"name": "Permanent Employees", "files": [
+          {"title": "Bob Lee", "category": "Promotion", "created": "2022-08-01", "history": [{"action": "created", "by": "hr1@company.com", "date": "2022-08-01"}]},
+          {"title": "Sara White", "category": "Contract", "created": "2021-05-12", "history": [{"action": "created", "by": "hr1@company.com", "date": "2021-05-12"}]},
+          {"title": "Tom Black", "category": "Letter", "created": "2023-03-18", "history": [{"action": "created", "by": "hr1@company.com", "date": "2023-03-18"}]}
+        ]}
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Directors' Secured Cupboard",
+      "department": "Directors",
+      "location": "Accounts Department",
+      "secured": true,
+      "drawers": [
+        {"name": "Director 1", "files": [
+          {"title": "Director1 Tax", "category": "Tax", "created": "2022-04-01", "history": [{"action": "created", "by": "secretary@company.com", "date": "2022-04-01"}]}
+        ]},
+        {"name": "Director 2", "files": [
+          {"title": "Director2 Salary", "category": "Salary", "created": "2023-01-10", "history": [{"action": "created", "by": "secretary@company.com", "date": "2023-01-10"}]}
+        ]},
+        {"name": "Director 3", "files": [
+          {"title": "Director3 Shares", "category": "Shares", "created": "2021-09-15", "history": [{"action": "created", "by": "secretary@company.com", "date": "2021-09-15"}]}
+        ]}
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Machines & Accounts Cupboard",
+      "department": "Accounts",
+      "location": "Accounts Department",
+      "drawers": [
+        {"name": "Bobst Machine", "files": [
+          {"title": "Bobst Agreement", "category": "Agreement", "created": "2020-06-01", "history": [{"action": "created", "by": "sandaleefernando1@gmail.com", "date": "2020-06-01"}, {"action": "handover", "by": "sandaleefernando1@gmail.com", "to": "ird@company.com", "date": "2024-09-01"}]}
+        ]},
+        {"name": "Annual Financials", "files": [
+          {"title": "2023 Financial Statement", "category": "Financial", "created": "2024-03-01", "history": [{"action": "created", "by": "sandaleefernando1@gmail.com", "date": "2024-03-01"}]}
+        ]},
+        {"name": "IRD Documents", "files": [
+          {"title": "IRD Review File", "category": "IRD", "created": "2024-08-01", "history": [{"action": "created", "by": "sandaleefernando1@gmail.com", "date": "2024-08-01"}]}
+        ]}
+        
+      ]
+    }
+  ]
+}
