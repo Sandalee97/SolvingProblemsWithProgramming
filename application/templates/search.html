@@ -13,15 +13,15 @@
         <ul class="list-group">
         {% for r in results %}
             <li class="list-group-item">
-                <strong>{{ r.file.title }}</strong> ({{ r.file.category }})<br>
-                Location: {{ r.location }}<br>
-                Created: {{ r.file.created }}<br>
-                Status: {{ r.file.status|capitalize }}<br>
-                <details>
+                <a href="{{ url_for('view_file', cab_id=r.cab_id, drawer_idx=r.drawer_idx, file_idx=r.file_idx) }}"><strong>{{ r.file.title }}</strong></a>
+                <span class="badge bg-info ms-2">{{ r.file.category }}</span><br>
+                <small>Cupboard: {{ r.cupboard.name }} &middot; Drawer: {{ r.drawer_name }}</small><br>
+                Created: {{ r.file.created }} &middot; Status: {{ r.file.status|default('N/A')|capitalize }}
+                <details class="mt-2">
                     <summary>History</summary>
                     <ul>
                     {% for h in r.file.history %}
-                        <li>{{ h.action|capitalize }} by {{ h.by }}{% if h.to %} to {{ h.to }}{% endif %} on {{ h.date }}{% if h.expected_return %} (Expected return: {{ h.expected_return }}){% endif %}{% if h.note %} - {{ h.note }}{% endif %}</li>
+                        <li>{{ h.action|capitalize }}{% if h.by %} by {{ h.by }}{% endif %}{% if h.to %} to {{ h.to }}{% endif %} on {{ h.date }}{% if h.expected_return %} (Expected return: {{ h.expected_return }}){% endif %}{% if h.note %} - {{ h.note }}{% endif %}</li>
                     {% endfor %}
                     </ul>
                 </details>

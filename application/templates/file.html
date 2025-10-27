@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ file.title }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary btn-sm mb-3">Back to Dashboard</a>
+    <h2>{{ file.title }} <small class="text-muted">({{ file.category }})</small></h2>
+    <p><strong>Cupboard:</strong> {{ cupboard.name }} &middot; <strong>Drawer:</strong> {{ cupboard.drawers[drawer_idx].name }}</p>
+    <p><strong>Created:</strong> {{ file.created }}</p>
+    <p><strong>Status:</strong> {{ file.status|default('N/A')|capitalize }}</p>
+    <h5>History</h5>
+    <ul>
+    {% for h in file.history %}
+        <li>{{ h.action|capitalize }}{% if h.by %} by {{ h.by }}{% endif %}{% if h.to %} to {{ h.to }}{% endif %} on {{ h.date }}{% if h.expected_return %} (Expected return: {{ h.expected_return }}){% endif %}{% if h.note %} - {{ h.note }}{% endif %}</li>
+    {% endfor %}
+    </ul>
+</div>
+</body>
+</html>

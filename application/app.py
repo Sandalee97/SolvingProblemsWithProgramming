@@ -214,5 +214,51 @@ def register_file():
             suggestion = min(cupboard['drawers'], key=lambda d: len(d['files']))['name']
     return render_template('register.html', user=user, storage=data['storage'], suggestion=suggestion)
 
+
+@app.route('/search')
+def search():
+    if not is_logged_in():
+        return redirect(url_for('login'))
+    q = request.args.get('q', '').strip().lower()
+    results = None
+    if q:
+        data = load_data()
+        results = []
+        # search through cupboards, drawers and files
+        for cab in data.get('storage', []):
+            for d_idx, drawer in enumerate(cab.get('drawers', [])):
+                for f_idx, file in enumerate(drawer.get('files', [])):
+                    title = file.get('title', '').lower()
+                    category = file.get('category', '').lower()
+                    keywords = (file.get('keywords') or '').lower()
+                    # substring (partial) case-insensitive match across fields
+                    if q in title or q in category or q in keywords:
+                        results.append({
+                            'cupboard': cab,
+                            'drawer_name': drawer.get('name'),
+                            'file': file,
+                            'cab_id': cab.get('id'),
+                            'drawer_idx': d_idx,
+                            'file_idx': f_idx,
+                        })
+    return render_template('search.html', q=q, results=results)
+
+
+@app.route('/file/<int:cab_id>/<int:drawer_idx>/<int:file_idx>')
+def view_file(cab_id, drawer_idx, file_idx):
+    if not is_logged_in():
+        return redirect(url_for('login'))
+    data = load_data()
+    cupboard = next((c for c in data['storage'] if c['id'] == cab_id), None)
+    if not cupboard:
+        flash('Cupboard not found.', 'danger')
+        return redirect(url_for('dashboard'))
+    try:
+        file = cupboard['drawers'][drawer_idx]['files'][file_idx]
+    except Exception:
+        flash('File not found.', 'danger')
+        return redirect(url_for('dashboard'))
+    return render_template('file.html', cupboard=cupboard, drawer_idx=drawer_idx, file_idx=file_idx, file=file)
+
 if __name__ == '__main__':
     app.run(debug=True)

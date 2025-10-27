@@ -2,33 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search Lost and Found</title>
+    <title>Placeholder</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container mt-4">
-    <h2>Search Lost and Found Items</h2>
-    <form method="get">
-        <div class="mb-3">
-            <input type="text" name="q" class="form-control" placeholder="Enter keyword..." value="{{ request.args.get('q', '') }}">
-        </div>
-        <button type="submit" class="btn btn-primary">Search</button>
-        <a href="/" class="btn btn-secondary">Back</a>
-    </form>
-    <hr>
-    {% if results is not none %}
-        <h4>Results:</h4>
-        <ul class="list-group">
-        {% for item in results %}
-            <li class="list-group-item">
-                <strong>[{{ item['category']|capitalize }}]</strong> {{ item['name'] }} - {{ item['description'] }}<br>
-                <small>Location: {{ item['location'] }}, Date: {{ item['date'] }}, Contact: {{ item['contact'] }}</small>
-            </li>
-        {% else %}
-            <li class="list-group-item">No items found.</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
+    <h2>Placeholder</h2>
+    <p>This is a placeholder template. Please run the document-tracker app in the <code>application/</code> folder:</p>
+    <p><code>python .\application\app.py</code></p>
 </div>
 </body>
 </html>
