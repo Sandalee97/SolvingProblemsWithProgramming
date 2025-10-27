@@ -1,6 +1,3 @@
-# SolvingProblemsWithProgramming
-test
-
 ## Document Tracker
 
 ### 1. Which aspects of the problem can potentially be solved with a program
